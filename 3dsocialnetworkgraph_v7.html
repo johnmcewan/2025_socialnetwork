@@ -9,19 +9,33 @@
   <div id="3d-graph"></div>
 
   <script>
-    // Random tree
-    const N = 300;
-    const gData = {
-      nodes: [...Array(N).keys()].map(i => ({ id: i })),
-      links: [...Array(N).keys()]
-        .filter(id => id)
-        .map(id => ({
-          source: id,
-          target: Math.round(Math.random() * (id-1))
-        }))
-    };
+    // // Random tree
+    // const N = 300;
+    // const gData = {
+    //   nodes: [...Array(N).keys()].map(i => ({ id: i })),
+    //   links: [...Array(N).keys()]
+    //     .filter(id => id)
+    //     .map(id => ({
+    //       source: id,
+    //       target: Math.round(Math.random() * (id-1))
+    //     }))
+    // };
 
 
+        const gData = {
+            nodes: [
+                { id: 1, name: "Alice" },
+                { id: 2, name: "Bob" },
+                { id: 3, name: "Charlie" },
+                { id: 4, name: "Diana" }
+            ],
+            links: [
+                { source: 1, target: 2 },
+                { source: 1, target: 3 },
+                { source: 2, target: 4 },
+                { source: 3, target: 4 }
+            ]
+        };
 
 
 
