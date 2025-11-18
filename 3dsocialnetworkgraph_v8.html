@@ -47,7 +47,7 @@
       .nodeAutoColorBy('group')
       .nodeThreeObject(node => {
         const nodeEl = document.createElement('div');
-        nodeEl.textContent = node.id;
+        nodeEl.textContent = node.name;
         nodeEl.style.color = node.color;
         nodeEl.className = 'name';
         return new CSS2DObject(nodeEl);
