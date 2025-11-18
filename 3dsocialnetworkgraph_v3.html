@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Social Network</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        #graph {
+            flex: 1;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>3D Social Network Graph</h1>
+        <p>Interactive visualization of connected users • Drag to rotate • Scroll to zoom</p>
+    </header>
+    
+    <div id="graph"></div>
+    
+    <script global="window" src="https://cdn.jsdelivr.net/npm/three@r128/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/3d-force-graph@1.72.0/dist/3d-force-graph.min.js"></script>
+    
+    <script>
+        // Create sample social network data
+        const data = {
+            nodes: [
+                { id: 1, name: "Alice", color: "#FF6B6B" },
+                { id: 2, name: "Bob", color: "#4ECDC4" },
+                { id: 3, name: "Charlie", color: "#45B7D1" },
+                { id: 4, name: "Diana", color: "#FFA07A" },
+                { id: 5, name: "Eve", color: "#98D8C8" },
+                { id: 6, name: "Frank", color: "#F7DC6F" },
+                { id: 7, name: "Grace", color: "#BB8FCE" },
+                { id: 8, name: "Henry", color: "#85C1E2" }
+            ],
+            links: [
+                { source: 1, target: 2 },
+                { source: 1, target: 3 },
+                { source: 2, target: 4 },
+                { source: 2, target: 5 },
+                { source: 3, target: 5 },
+                { source: 3, target: 6 },
+                { source: 4, target: 7 },
+                { source: 5, target: 6 },
+                { source: 6, target: 8 },
+                { source: 7, target: 8 },
+                { source: 1, target: 5 }
+            ]
+        };
+        
+        // Wait for library to load
+        setTimeout(() => {
+            const elem = document.getElementById('graph');
+            
+            const graph = new window.ForceGraph3D()
+                .graphData(data)
+                .nodeLabel('name')
+                .nodeColor('color')
+                .nodeSize(8)
+                .linkColor(() => 'rgba(255, 255, 255, 0.3)')
+                .linkWidth(2)
+                .onNodeDragEnd(node => {
+                    node.fx = node.x;
+                    node.fy = node.y;
+                    node.fz = node.z;
+                })
+                (elem);
+            
+            // Auto-rotate camera
+            let angle = 0;
+            const rotationInterval = setInterval(() => {
+                angle += 0.3;
+                const distance = 300;
+                graph.cameraPosition({
+                    x: Math.sin(angle * Math.PI / 180) * distance,
+                    y: distance * 0.5,
+                    z: Math.cos(angle * Math.PI / 180) * distance
+                });
+            }, 50);
+        }, 1000);
+    </script>
+</body>
+</html>
